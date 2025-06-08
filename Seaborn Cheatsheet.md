@@ -169,7 +169,10 @@ Wistia
 
  It visualizes the change in a trend over time or another continuous variable. 
 
+![Screenshot 2025-06-09 003312](https://github.com/user-attachments/assets/75df6b3b-3803-43fc-855b-981f42885948)
+
 ```py
+
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -190,6 +193,8 @@ plt.show()
 ### 7. Scatter Plot
 
 Examines relationships and distributions of two variables
+
+![Screenshot 2025-06-09 003540](https://github.com/user-attachments/assets/4179965c-99a3-4733-95cd-02ca1816f629)
 
 ```py
 import seaborn as sns
@@ -213,6 +218,8 @@ plt.show()
 
 Visualizes statistical relationships across different categories
 
+![Screenshot 2025-06-09 004028](https://github.com/user-attachments/assets/063d5b84-18ed-442b-a5fd-9651fd53dee2)
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -222,13 +229,14 @@ tips = sns.load_dataset('tips')
 
 # Create the relplot (relational plot)
 # By default, kind='scatter', so this is similar to scatterplot but can also do line plots.
-sns.relplot(x="total_bill", y="tip", data=tips)
+sns.relplot(x="total_bill", y="tip", data=tips , kind = "line")
 
 # Optional: Add a title for clarity (relplot creates a FacetGrid, so suptitle is often used)
 plt.suptitle('Relational Plot: Total Bill vs. Tip Amount', y=1.02) # y adjusts title position
 
 plt.show()
 ```
+![Screenshot 2025-06-09 004225](https://github.com/user-attachments/assets/0fcf0a51-22dd-43d4-82c6-02b31bc1249f)
 
 ```py
 import seaborn as sns
@@ -245,6 +253,8 @@ plt.show()
 ### 9. Heatmap
 
  Displays complexity in multivariate data, often in matrix format
+
+![Screenshot 2025-06-09 004409](https://github.com/user-attachments/assets/d06ab3bb-dd46-49fc-9e0a-fdb6c1b233c2)
 
 ```py
 import seaborn as sns
@@ -275,6 +285,8 @@ plt.show()
 
 Visualizes structures in matrix data where similar clusters are grouped
 
+![Screenshot 2025-06-09 004742](https://github.com/user-attachments/assets/842bd4fc-c135-4b99-96c6-4c725aa58d58)
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -299,6 +311,8 @@ plt.show()
 
  Visualizes distributions with quartiles and outliers
 
+![Screenshot 2025-06-09 004951](https://github.com/user-attachments/assets/2fbe7202-44bd-4d1d-a7c3-7766f6ddf316)
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -321,6 +335,9 @@ plt.show()
 
 Visualizes the distribution and probability density of data
 
+![Screenshot 2025-06-09 005143](https://github.com/user-attachments/assets/d8dc30cc-4e17-4158-870c-115433defe00)
+
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -341,6 +358,8 @@ plt.show()
 ### 13. Bar Plot
 
 Compares numerical values across different categories
+
+![Screenshot 2025-06-09 005344](https://github.com/user-attachments/assets/a515cbab-350d-4ddd-82d2-78263509eb94)
 
 ```py
 import seaborn as sns
@@ -364,6 +383,9 @@ plt.show()
 
 Displays the counts of observations or frequency of categories
 
+![Screenshot 2025-06-09 005531](https://github.com/user-attachments/assets/756d1a2b-924b-41db-8834-c0403b8744d2)
+
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -386,6 +408,9 @@ plt.show()
 
 Displays point estimates with error bars, emphasizing differences between groups
 
+![Screenshot 2025-06-09 005758](https://github.com/user-attachments/assets/e5311526-590c-4965-947e-55282a3b3818)
+
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -407,6 +432,9 @@ plt.show()
 
 Displays distribution of categorical data, avoiding overlapping points
 
+![Screenshot 2025-06-09 005958](https://github.com/user-attachments/assets/e1c479e3-2f05-45ee-990e-1251b3e28de0)
+
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -427,7 +455,9 @@ plt.show()
 ```
 ### 17. Strip Plot
 
- Represents individual data points in a categorical scatterplot
+Represents individual data points in a categorical scatterplot
+
+![Screenshot 2025-06-09 010325](https://github.com/user-attachments/assets/9ab60afe-3907-4301-89ed-69c43a226c90)
 
 ```py
 import seaborn as sns
@@ -451,6 +481,9 @@ plt.show()
 
 All-in-one method for creating various categorical plots
 
+![Screenshot 2025-06-09 010541](https://github.com/user-attachments/assets/84a25a66-8f66-4288-ac74-6c0b607d0654)
+
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -471,6 +504,9 @@ plt.show()
 ### 19. Reg Plot
 
 Visualizes a simple linear relationship between two variables
+
+![Screenshot 2025-06-09 010953](https://github.com/user-attachments/assets/5e24ee8d-9dbc-437e-be4d-76d9d0b818db)
+
 
 ```py
 import seaborn as sns
@@ -494,6 +530,9 @@ plt.show()
 
 Displays multiple regression plots for subsets of a dataset
 
+![Screenshot 2025-06-09 011348](https://github.com/user-attachments/assets/a986e362-3c5f-4a88-bb5b-e756566bd79e)
+
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -514,6 +553,9 @@ plt.show()
 ### 21. Displot 
 
 Summarizes the distribution of a dataset
+
+![Screenshot 2025-06-09 011530](https://github.com/user-attachments/assets/0e3be974-de01-4973-9b77-38a13f2ac60c)
+
 
 ```py
 import seaborn as sns
@@ -537,6 +579,9 @@ plt.show()
 
 Visualizes the distribution of a dataset
 
+![Screenshot 2025-06-09 011709](https://github.com/user-attachments/assets/ceb28384-ba9f-48c2-ba7c-48ef74d17470)
+
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -557,7 +602,9 @@ plt.show()
 
 ### 23. Hist Plot
 
- Displays the frequency distribution of a numerical variable
+Displays the frequency distribution of a numerical variable
+
+![Screenshot 2025-06-09 012037](https://github.com/user-attachments/assets/9cd9ed1a-fdc3-48ed-a855-6ec8e5b95ef2)
 
 ```py
 import seaborn as sns
@@ -580,7 +627,9 @@ plt.show()
 
 ### 24. ECDF Plot
 
- Assesses the probability distribution of a dataset
+Assesses the probability distribution of a dataset
+
+![Screenshot 2025-06-09 012223](https://github.com/user-attachments/assets/51ae5124-69ef-431b-a8dd-6367893186c9)
 
 ```py
 import seaborn as sns
@@ -606,6 +655,9 @@ plt.show()
 
 Displays individual observations along an axis
 
+![Screenshot 2025-06-09 012425](https://github.com/user-attachments/assets/cf989d84-f97a-47ef-98e8-b13cb8c09b6f)
+
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -627,6 +679,9 @@ plt.show()
 
 Displays the relationship between two variables and their marginal distributions
 
+![Screenshot 2025-06-09 012607](https://github.com/user-attachments/assets/b5f0d65b-d864-41b0-a057-9eaedd9a642c)
+
+
 ```py
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -646,6 +701,8 @@ plt.show()
 ### 27. FacetGrid
 
 Creates a grid of plots based on a dataset’s features to compare distributions
+
+![Screenshot 2025-06-09 013004](https://github.com/user-attachments/assets/014a940e-2652-49ff-9f8d-6422a3a92eb2)
 
 ```py
 import seaborn as sns
@@ -678,6 +735,8 @@ plt.show()
 ### 28. PairGrid 
 
 Explores pairwise relationships in a dataset
+
+
 
 ```py
 import seaborn as sns
