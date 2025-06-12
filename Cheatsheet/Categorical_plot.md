@@ -1,0 +1,239 @@
+<div align="left">
+  <h1> 1. Seaborn  Cheatsheet - Categorical Plots
+
+  ## Categorical Plots
+
+### 1. Build in Datasets
+
+```shell
+tips
+iris
+penguins
+flights
+diamonds
+titanic
+exercise
+mpg
+planets
+anagrams
+anscombe
+attention
+brain_networks
+car_crashes
+dots
+dowjones
+fmri
+geyser
+glue
+healthexp
+seaice
+taxis
+```
+### 2. Load the dataset
+
+```py
+import seaborn as sns
+
+# Load the tips dataset
+tips = sns.load_dataset('tips')
+```
+
+### 3. sns.catplot(x, y, data, kind='strip')
+A figure-level function that provides a unified interface to several categorical plots. The kind parameter determines the specific plot type (e.g., 'strip', 'swarm', 'box', 'violin', 'boxen', 'point', 'bar', 'count'). Supports col, row, hue for creating grids.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Import matplotlib to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a strip plot using sns.catplot
+# 'sex' is a categorical variable, 'age' is numerical
+sns.catplot(x="sex", y="age", data=df, kind='strip')
+
+# Optional: Add a title for clarity
+plt.title("Age Distribution by Sex on Titanic (Strip Plot)")
+plt.show()
+```
+
+### 4. sns.stripplot(x, y, data)
+Draws a scatter plot where one variable is categorical. It helps visualize the distribution of points within categories, with points "jittered" to avoid overlap.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Needed to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a stripplot
+# x='pclass' (Passenger Class) is a categorical variable
+# y='age' (Age) is a numerical variable
+sns.stripplot(x="pclass", y="age", data=df)
+
+# Optional: Add a title and labels for clarity
+plt.title("Age Distribution by Passenger Class")
+plt.xlabel("Passenger Class")
+plt.ylabel("Age")
+
+plt.show()
+```
+
+### 5. sns.swarmplot(x, y, data)
+Similar to stripplot, but adjusts the points along the categorical axis so that they don't overlap, providing a better representation of density.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a swarmplot to visualize the distribution of 'age' across 'sex' categories
+sns.swarmplot(x='sex', y='age', data=df)
+
+plt.title("Age Distribution by Gender")
+plt.xlabel("Gender")
+plt.ylabel("Age")
+
+plt.show()
+```
+
+### 6. sns.boxplot(x, y, data)
+Displays the distribution of quantitative data in a way that facilitates comparisons between categorical variables. Shows quartiles, outliers, and median.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Matplotlib is needed for displaying the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a box plot using 'pclass' on the x-axis and 'age' on the y-axis
+sns.boxplot(x='pclass', y='age', data=df)
+
+# Optional: Add a title and labels for clarity
+plt.title('Age Distribution by Passenger Class')
+plt.xlabel('Passenger Class')
+plt.ylabel('Age')
+
+plt.show()
+```
+
+### 7. sns.violinplot(x, y, data)
+Combines aspects of a box plot with a kernel density estimation, showing the probability density of the data at different values.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a violin plot
+# x: 'pclass' (Passenger Class - categorical)
+# y: 'age' (Age - numerical)
+# data: the DataFrame 'df'
+sns.violinplot(x='pclass', y='age', data=df)
+
+# Optional: Add a title and labels for clarity
+plt.title("Distribution of Age by Passenger Class on Titanic")
+plt.xlabel("Passenger Class")
+plt.ylabel("Age")
+
+# Show the plot
+plt.show()
+```
+
+### 8. sns.boxenplot(x, y, data)
+(Also known as letter-value plot) Similar to a box plot but designed to show more information about the shape of the distribution, particularly for larger datasets.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a boxenplot
+# We'll visualize the distribution of 'age' (quantitative) across different 'pclass' (categorical)
+sns.boxenplot(x="pclass", y="age", data=df)
+
+# Optional: Add a title and labels for clarity
+plt.title("Age Distribution by Passenger Class")
+plt.xlabel("Passenger Class")
+plt.ylabel("Age")
+
+plt.show()
+```
+
+### 9. sns.barplot(x, y, data)
+Represents the mean (or other estimator) of a numerical variable for each category, along with a confidence interval.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Often used with seaborn for display
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a bar plot using sns.barplot(x, y, data)
+# Example: Showing the survival rate (mean of 'survived') by 'sex'
+sns.barplot(x='sex', y='survived', data=df)
+
+# Optional: Add a title and labels for clarity (if plotting)
+plt.title("Survival Rate by Sex on Titanic")
+plt.xlabel("Sex")
+plt.ylabel("Survival Rate")
+
+plt.show() 
+```
+
+### 10. sns.countplot(x, data)
+Shows the counts of observations in each category using bars. It's essentially a bar plot where the height of the bars corresponds to the number of occurrences.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a countplot for the 'sex' column
+# This plot will show the count of male and female passengers.
+sns.countplot(x='sex', data=df)
+
+# Optional: Add a title for clarity
+plt.title("Count of Passengers by Sex on Titanic")
+plt.xlabel("Sex")
+plt.ylabel("Number of Passengers")
+
+plt.show()
+```
+
+### 11. sns.pointplot(x, y, data)
+Displays the estimate of a quantitative variable for each category, along with confidence intervals, typically using points and connecting lines. Useful for showing interactions.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a pointplot
+# Here, we plot the average 'survived' status (0=No, 1=Yes) against 'pclass' (passenger class).
+# This effectively shows the survival rate for each passenger class.
+sns.pointplot(x="pclass", y="survived", data=df)
+
+```
+
