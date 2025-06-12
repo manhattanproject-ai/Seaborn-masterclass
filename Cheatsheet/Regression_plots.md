@@ -1,1 +1,201 @@
+<div align="left">
+  <h1> 1. Seaborn  Cheatsheet - Regression Plots
+
+  ## Regression Plots
+
+### 1. Build in Datasets
+
+```shell
+tips
+iris
+penguins
+flights
+diamonds
+titanic
+exercise
+mpg
+planets
+anagrams
+anscombe
+attention
+brain_networks
+car_crashes
+dots
+dowjones
+fmri
+geyser
+glue
+healthexp
+seaice
+taxis
+```
+### 2. Load the dataset
+
+```py
+import seaborn as sns
+
+# Load the tips dataset
+tips = sns.load_dataset('tips')
+```
+
+### 3. sns.regplot(x="feature", y="target", data=df)
+Plots a scatterplot of x and y with a linear regression model fit. Ideal for visualizing a single relationship between two variables.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for displaying the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate the regplot
+# We'll use 'age' as the independent variable (x) and 'fare' as the dependent variable (y)
+# Note: regplot automatically handles NaN values by dropping them for the regression calculation.
+sns.regplot(x="age", y="fare", data=df)
+
+# Optional: Add a title and labels for clarity
+plt.title("Relationship between Age and Fare on Titanic")
+plt.xlabel("Age")
+plt.ylabel("Fare")
+
+plt.show()
+```
+
+### 4. sns.lmplot(x="feature", y="target", data=df, hue="category_col")
+Creates a multi-panel plot (a FacetGrid) where regplot is used for each facet. Excellent for exploring conditional relationships (e.g., how the regression differs across categories defined by hue).
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate the lmplot
+# We'll visualize the relationship between 'age' and 'fare',
+# with different regression lines for 'sex' (male/female).
+sns.lmplot(x="age", y="fare", data=df, hue="sex")
+
+# Optional: Add a title for clarity
+plt.title("Relationship between Age and Fare, separated by Sex")
+
+# Display the plot
+plt.show()
+```
+
+### 5. sns.lmplot(x="feature", y="target", data=df, order=2)
+Fits a polynomial regression model of the specified order (e.g., order=2 for quadratic). Applicable to both regplot and lmplot.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Needed for sns.lmplot to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate the lmplot
+# We'll use 'age' as the feature (x) and 'fare' as the target (y).
+# 'order=2' will fit a quadratic regression line.
+# Note: lmplot will create a figure and display it.
+sns.lmplot(x="age", y="fare", data=df, order=2)
+
+# Optional: Add a title for clarity
+plt.title("Relationship between Age and Fare (Quadratic Fit)")
+plt.xlabel("Age")
+plt.ylabel("Fare")
+
+# Show the plot
+plt.show()
+```
+
+### 6. sns.lmplot(x="feature", y="target", data=df, x_estimator=np.mean)
+Plots conditional means and confidence intervals, rather than individual data points, for x values. Useful when x is categorical or has many overlapping points.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import numpy as np # Required for np.mean
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+# Generate the lmplot using 'pclass' as the feature and 'age' as the target
+# x="pclass" will show the mean 'age' for each passenger class,
+# and draw a regression line through these means.
+sns.lmplot(x="pclass", y="age", data=df, x_estimator=np.mean)
+```
+
+### 7. sns.lmplot(x="feature", y="target", data=df, ci=None)
+Hides the confidence interval around the regression line. By default, it's a 95% confidence interval.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a scatter plot with a linear regression model fit
+# using 'age' as the feature (x-axis) and 'fare' as the target (y-axis)
+# ci=None removes the confidence interval around the regression line.
+sns.lmplot(x="age", y="fare", data=df, ci=None)
+plt.show()
+
+```
+
+### 8. sns.lmplot(x="feature", y="target", data=df, scatter=False)
+Plots only the regression line and its confidence interval, without the individual scatter points.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate the line plot using sns.lmplot with scatter=False
+# We'll use 'age' as the feature (x) and 'fare' as the target (y) for demonstration.
+# Note: lmplot will internally handle NaNs in 'age' and 'fare'.
+sns.lmplot(x="age", y="fare", data=df, scatter=False)
+
+# Optional: Add a title and labels for clarity
+plt.title("Regression Line of Fare by Age (Scatter Points Hidden)")
+plt.xlabel("Age")
+plt.ylabel("Fare")
+
+plt.show()
+```
+
+### 9. sns.residplot(x="feature", y="target", data=df)
+Plots the residuals of a simple regression model. Useful for checking assumptions of linear regression (e.g., homoscedasticity).
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for plotting functions like show()
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+
+# For residplot, we need numerical features and targets.
+# Let's use 'age' as the feature (x) and 'fare' as the target (y).
+# It's good practice to drop rows with NaN values in these specific columns for plotting,
+# as residplot does not handle NaNs automatically.
+df_clean = df.dropna(subset=['age', 'fare'])
+
+# Generate the residplot
+sns.residplot(x="age", y="fare", data=df_clean)
+
+# Optional: Add a title and labels for clarity
+plt.title("Residual Plot of Fare vs. Age")
+plt.xlabel("Age")
+plt.ylabel("Residuals of Fare")
+
+plt.show()
+```
 
