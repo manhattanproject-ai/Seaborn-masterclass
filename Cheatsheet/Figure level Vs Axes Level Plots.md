@@ -1,7 +1,7 @@
 <div align="left">
-  <h1> 1. Pandas Cheatsheet - Viewing and Inspecting Data
+  <h1> 1. Seaborn  Cheatsheet - Figure-Level vs. Axes-Level Plots
 
-  ## Viewing and Inspecting Data
+  ## Figure-Level vs. Axes-Level Plots
 
 ### 1. Build in Datasets
 
@@ -38,8 +38,310 @@ import seaborn as sns
 tips = sns.load_dataset('tips')
 ```
 
-### 3. Top N rows of the dataframe
-It returns first n rows of the DataFrame.By default it will return first 5 rows
+### 3. sns.scatterplot(x, y, data, ax=...)
+Axes-Level: Creates a scatter plot on a single Axes object. Returns matplotlib.axes.Axes. Accepts an ax= argument to plot on a specific subplot.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Import matplotlib for ax
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a figure and an axes object to pass to seaborn
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# Create the scatter plot using 'age' for x, 'fare' for y, and passing the ax object
+sns.scatterplot(x='age', y='fare', data=df, ax=ax)
+
+# Optional: Add title and labels for clarity
+ax.set_title('Age vs Fare on Titanic')
+ax.set_xlabel('Age')
+ax.set_ylabel('Fare')
+
+plt.show()
+```
+
+### 4. sns.lineplot(x, y, data, ax=...)
+Axes-Level: Creates a line plot on a single Axes object. Returns matplotlib.axes.Axes. Accepts an ax= argument.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Needed to create an axes object for 'ax' parameter
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a matplotlib figure and an axes object to pass to seaborn
+fig, ax = plt.subplots(figsize=(8, 5))
+
+# Create the line plot:
+# x='pclass': Passenger class (1st, 2nd, 3rd) as the x-axis, naturally ordered.
+# y='survived': Survival status (0=No, 1=Yes). By default, lineplot will show the mean survival rate.
+# data=df: The DataFrame containing the data.
+# ax=ax: Specifies the matplotlib axes object on which to draw the plot.
+sns.lineplot(x='pclass', y='survived', data=df, ax=ax)
+
+plt.show()
+```
+
+### 5. sns.histplot(x, data, ax=...)
+Axes-Level: Creates a histogram on a single Axes object. Returns matplotlib.axes.Axes. Accepts an ax= argument.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for creating an Axes object and showing the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a figure and an axes object to pass to histplot
+fig, ax = plt.subplots(figsize=(8, 5))
+
+# Use sns.histplot to visualize the distribution of 'age'
+# We pass the 'ax' object to ensure the plot is drawn on that specific axes.
+sns.histplot(x='age', data=df, ax=ax, kde=True) # kde=True adds a Kernel Density Estimate curve
+
+# Optional: Add titles and labels for clarity
+ax.set_title('Distribution of Age on Titanic')
+ax.set_xlabel('Age')
+ax.set_ylabel('Count')
+
+# Display the plot
+plt.show()
+```
+
+### 6. sns.kdeplot(x, data, ax=...)
+Axes-Level: Creates a Kernel Density Estimate plot on a single Axes object. Returns matplotlib.axes.Axes. Accepts an ax= argument.
+
+```py
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt # Import matplotlib for creating an Axes object
+
+# Create a figure and an axes object to pass to kdeplot
+fig, ax = plt.subplots(figsize=(8, 5))
+
+# Use sns.kdeplot to plot the kernel density estimate of the 'age' column
+# The 'data' argument specifies the DataFrame, and 'ax' specifies where to draw the plot.
+sns.kdeplot(x='age', data=df, ax=ax)
+
+# Optional: Add a title for clarity
+ax.set_title('Kernel Density Estimate of Age on Titanic')
+ax.set_xlabel('Age')
+ax.set_ylabel('Density')
+
+plt.show()
+```
+
+### 7. sns.boxplot(x, y, data, ax=...)
+Axes-Level: Creates a box plot on a single Axes object. Returns matplotlib.axes.Axes. Accepts an ax= argument.
+
+```py
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt # Required for creating an axes object
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a figure and a single axes object to pass to seaborn
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# Create the box plot using sns.boxplot
+# Here, we're visualizing the distribution of 'age' across different 'pclass' (passenger classes)
+sns.boxplot(x='pclass', y='age', data=df, ax=ax)
+
+# Optional: Add a title and labels for clarity
+ax.set_title('Age Distribution by Passenger Class on Titanic')
+ax.set_xlabel('Passenger Class')
+ax.set_ylabel('Age')
+
+plt.show()
+```
+
+### 8. sns.barplot(x, y, data, ax=...)
+Axes-Level: Creates a bar plot on a single Axes object. Returns matplotlib.axes.Axes. Accepts an ax= argument.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for creating an Axes object and showing the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a figure and an axes object to pass to seaborn
+fig, ax = plt.subplots(figsize=(8, 6)) # You can adjust the figure size
+
+# Create the bar plot using 'sex' on the x-axis and the mean 'survived' on the y-axis
+# Pass the 'ax' object to direct the plot to this specific axes.
+sns.barplot(x='sex', y='survived', data=df, ax=ax)
+
+# Optional: Add a title and labels for clarity using the axes object
+ax.set_title("Survival Rate by Sex on Titanic")
+ax.set_xlabel("Sex")
+ax.set_ylabel("Survival Rate")
+
+# Display the plot
+plt.tight_layout() # Adjusts plot to prevent labels overlapping
+plt.show()
+```
+
+### 9. sns.lmplot(x, y, data, hue=..., col=..., row=...)
+Figure-Level: Creates a scatter plot with regression line, often faceted by hue, col, or row. Returns a FacetGrid object. Does NOT accept an ax= argument.
+
+```py
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt # Import matplotlib for showing the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create an lmplot to visualize the relationship between 'age' and 'fare',
+# separated by 'sex' (hue), 'pclass' (columns), and 'embarked' (rows).
+# Note: lmplot creates a FacetGrid and plots a linear regression model.
+# Some combinations might not have enough data to draw a clear line.
+sns.lmplot(
+    x='age',
+    y='fare',
+    data=df,
+    hue='sex',      # Color points based on 'sex'
+    col='pclass',   # Create separate columns for each 'pclass'
+    row='embarked', # Create separate rows for each 'embarked' port
+    height=3,       # Height of each facet
+    aspect=1.2,     # Aspect ratio of each facet
+    x_jitter=.1     # Add jitter to x-axis to better visualize overlapping points
+)
+
+# Add a main title for the entire plot
+plt.suptitle("Relationship between Age and Fare by Sex, Pclass, and Embarked Port", y=1.02)
+# Adjust layout to prevent titles/labels from overlapping
+plt.tight_layout(rect=[0, 0, 1, 0.98]) # Adjust rect to make space for suptitle
+
+# Show the plot
+plt.show()
+```
+
+### 10. sns.relplot(x, y, data, kind='scatter'/'line', col=..., row=...)
+Figure-Level: Flexible function for relational plots (scatter or line), often faceted. Returns a FacetGrid object. Does NOT accept an ax= argument.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Needed to display the plot
+
+# Create a relational plot using sns.relplot
+# x: 'age' (numerical)
+# y: 'fare' (numerical)
+# data: 'titanic' DataFrame
+# kind: 'scatter' to show individual points
+# col: 'sex' to create separate columns for male and female passengers
+sns.relplot(x="age", y="fare", data=df, kind='scatter', col='sex')
+
+# Optional: Add a title for clarity
+plt.suptitle("Fare vs. Age by Sex on Titanic", y=1.02) # y adjusts title position to avoid overlap with facets
+
+# Show the plot
+plt.show()
+```
+
+### 11. sns.displot(x, data, kind='hist'/'kde'/'ecdf', col=..., row=...)
+Figure-Level: Flexible function for distribution plots (hist, kde, ecdf), often faceted. Returns a FacetGrid object. Does NOT accept an ax= argument.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Example 1: Histogram of 'age'
+print("\n--- displot (kind='hist') of 'age' ---")
+sns.displot(x='age', data=df, kind='hist')
+plt.title("Distribution of Age (Histogram)")
+plt.show()
+
+# Example 2: Kernel Density Estimate (KDE) of 'fare'
+print("\n--- displot (kind='kde') of 'fare' ---")
+sns.displot(x='fare', data=df, kind='kde')
+plt.title("Distribution of Fare (KDE)")
+plt.show()
+
+# Example 3: Empirical Cumulative Distribution Function (ECDF) of 'age', faceted by 'sex'
+print("\n--- displot (kind='ecdf') of 'age' faceted by 'sex' ---")
+sns.displot(x='age', data=df, kind='ecdf', col='sex')
+plt.suptitle("ECDF of Age by Sex", y=1.02) # Use suptitle for overall title with col/row
+plt.show()
+
+# Example 4: Histogram of 'fare', faceted by 'pclass' in rows
+print("\n--- displot (kind='hist') of 'fare' faceted by 'pclass' (rows) ---")
+sns.displot(x='fare', data=df, kind='hist', row='pclass')
+plt.suptitle("Distribution of Fare by Passenger Class", y=1.02)
+plt.show()
+```
+
+### 12. sns.catplot(x, y, data, kind='box'/'violin'/..., col=..., row=...)
+Figure-Level: Flexible function for categorical plots (box, violin, bar, etc.), often faceted. Returns a FacetGrid object. Does NOT accept an ax= argument.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a catplot to visualize age distribution by sex, faceted by survival status
+sns.catplot(x='sex', y='age', data=df, kind='box', col='survived')
+
+# Optional: Add a title for clarity
+plt.suptitle("Age Distribution by Sex and Survival Status (Box Plot)", y=1.02) # Adjust y to prevent title overlap
+
+plt.show()
+```
+
+### 13. sns.jointplot(x, y, data, kind='scatter'/'kde'/'reg'...)
+Figure-Level: Creates a joint plot with marginal distributions. Returns a JointGrid object. Does NOT accept an ax= argument.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a jointplot to visualize the relationship between 'age' and 'fare'
+# The 'kind' parameter specifies the type of plot for the joint distribution.
+# 'scatter': displays a scatter plot in the main area and histograms on the margins.
+# 'kde': displays a kernel density estimate (contour plot) in the main area and KDE plots on the margins.
+# 'reg': displays a regression line with scatter plot in the main area and histograms on the margins.
+sns.jointplot(x='age', y='fare', data=df, kind='scatter')
+
+# Optional: Add a title for clarity
+plt.suptitle("Joint Plot of Age vs. Fare (Kind='scatter')", y=1.02) # y is for vertical adjustment of title
+
+plt.show()
+
+# Example with kind='kde'
+# sns.jointplot(x='age', y='fare', data=df, kind='kde')
+# plt.suptitle("Joint Plot of Age vs. Fare (Kind='kde')", y=1.02)
+# plt.show()
+
+# Example with kind='reg'
+# sns.jointplot(x='age', y='fare', data=df, kind='reg')
+# plt.suptitle("Joint Plot of Age vs. Fare (Kind='reg')", y=1.02)
+# plt.show()
+```
+
+### 14. sns.pairplot(data, hue=...)
+Figure-Level: Creates a grid of pairwise relationships in a dataset. Returns a PairGrid object. Does NOT accept an ax= argument.
 
 ```py
 import seaborn as sns
@@ -48,7 +350,99 @@ import pandas as pd # pandas is implicitly used by seaborn's load_dataset
 # Load the titanic dataset
 df = sns.load_dataset('titanic')
 
-# Display the first 5 rows of the DataFrame
-# Replace '5' with any integer 'n' to view the first 'n' rows
-print(df.head(5))
+# Create a pairplot, coloring the points based on the 'survived' column
+# This will show scatter plots for all numerical column pairs,
+# and histograms/KDEs for single numerical columns,
+# with points/distributions differentiated by survival status.
+sns.pairplot(df, hue='survived')
+
+# Note: In a real execution, a plot window would typically appear.
+# As per the request, no explicit plotting commands like plt.show() are included.
 ```
+
+### 15. plt.subplots(rows, cols)
+Matplotlib command used to create a Figure and a grid of Axes objects, often used with Axes-Level Seaborn functions.
+
+```py
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a 2x2 grid of subplots
+# fig is the entire figure, axes is a 2D array of individual subplot axes
+fig, axes = plt.subplots(2, 2, figsize=(12, 10)) # Adjust figsize as needed
+
+# Plot 1: Histogram of 'age' on the first subplot (top-left)
+sns.histplot(df['age'].dropna(), kde=True, ax=axes[0, 0], color='skyblue')
+axes[0, 0].set_title('Age Distribution')
+axes[0, 0].set_xlabel('Age')
+axes[0, 0].set_ylabel('Count')
+
+# Plot 2: Boxplot of 'fare' by 'pclass' on the second subplot (top-right)
+sns.boxplot(x='pclass', y='fare', data=df, ax=axes[0, 1], palette='pastel')
+axes[0, 1].set_title('Fare by Passenger Class')
+axes[0, 1].set_xlabel('Passenger Class')
+axes[0, 1].set_ylabel('Fare')
+
+# Plot 3: Countplot of 'sex' on the third subplot (bottom-left)
+sns.countplot(x='sex', data=df, ax=axes[1, 0], palette='coolwarm')
+axes[1, 0].set_title('Gender Distribution')
+axes[1, 0].set_xlabel('Gender')
+axes[1, 0].set_ylabel('Count')
+
+# Plot 4: Scatterplot of 'age' vs 'fare' on the fourth subplot (bottom-right)
+sns.scatterplot(x='age', y='fare', hue='survived', data=df, ax=axes[1, 1], palette='viridis')
+axes[1, 1].set_title('Age vs Fare by Survival')
+axes[1, 1].set_xlabel('Age')
+axes[1, 1].set_ylabel('Fare')
+
+# Adjust layout to prevent labels from overlapping
+plt.tight_layout()
+
+# Display the plots
+plt.show()
+```
+
+### 16. g.ax
+Attribute of a FacetGrid or JointGrid object (g) to access the main Axes object within the figure-level plot for further customization using Matplotlib commands.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for displaying the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a seaborn plot that returns a FacetGrid object (g)
+# sns.displot is a figure-level function that returns a FacetGrid.
+# When 'col' or 'row' are not used, the FacetGrid has a single Axes object accessible via g.ax.
+g = sns.displot(data=df, x="age", kind="hist", bins=20, hue="sex", multiple="stack")
+
+# Use g.ax to access the underlying Matplotlib Axes object.
+# This allows you to directly manipulate properties of the plot,
+# such as setting titles, labels, or adding text.
+g.ax.set_title("Distribution of Passenger Age on Titanic by Sex")
+g.ax.set_xlabel("Age (Years)")
+g.ax.set_ylabel("Number of Passengers")
+
+# You can also use g.ax for other Matplotlib Axes methods, for example, to add text.
+g.ax.text(x=65, y=100, s="Elderly Passengers", fontsize=9, color='gray', ha='center')
+
+# Display the plot
+plt.show()
+```
+
+
+
+
+
+
+
+
+
+
+
