@@ -1,1 +1,345 @@
+<div align="left">
+  <h1> 1. Seaborn  Cheatsheet - Customizing plot elements
+
+  ## Customizing plot elements
+
+### 1. Build in Datasets
+
+```shell
+tips
+iris
+penguins
+flights
+diamonds
+titanic
+exercise
+mpg
+planets
+anagrams
+anscombe
+attention
+brain_networks
+car_crashes
+dots
+dowjones
+fmri
+geyser
+glue
+healthexp
+seaice
+taxis
+```
+### 2. Load the dataset
+
+```py
+import seaborn as sns
+
+# Load the tips dataset
+tips = sns.load_dataset('tips')
+```
+
+### 3. sns.set_style('whitegrid')
+Sets the aesthetic style of the plots. Options include 'darkgrid', 'whitegrid', 'dark', 'white', 'ticks'.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Set the seaborn plot style to 'whitegrid'
+# This changes the default aesthetic of seaborn plots, adding a white background with a grid.
+sns.set_style('whitegrid')
+
+# Optional: Create a simple plot to demonstrate the effect of the 'whitegrid' style
+# This will show the grid lines that 'whitegrid' style adds.
+sns.histplot(data=df, x='age', kde=True)
+plt.title('Age Distribution on Titanic with whitegrid style')
+plt.xlabel('Age')
+plt.ylabel('Count')
+plt.show()
+```
+### 4. sns.set_palette('viridis')
+Sets the default color palette for all plots. Accepts a palette name (e.g., 'deep', 'muted', 'pastel'), a Matplotlib colormap (e.g., 'viridis', 'plasma'), or a list of colors.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Needed to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Set the color palette to 'viridis'
+sns.set_palette('viridis')
+
+# Optional: Create a plot to demonstrate the effect of the palette
+# For example, a countplot of 'class' will now use the viridis colors
+plt.figure(figsize=(8, 5))
+sns.countplot(x='class', data=df)
+plt.title("Count of Passengers by Class with 'viridis' Palette")
+plt.xlabel("Passenger Class")
+plt.ylabel("Count")
+plt.show()
+```
+### 5. sns.despine(left=True, bottom=True)
+Removes the top and right spines (borders) from the plot. Can remove left or bottom spines as well.
+
+```py
+import seaborn as sns
+import matplotlib.pyplot as plt # Needed for plt.show() and managing the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a sample plot to demonstrate despine
+# For example, a countplot of 'class'
+sns.countplot(x='class', data=df)
+
+# Apply sns.despine to remove the left and bottom spines from the plot
+# This gives a cleaner, minimalist look by removing the default borders.
+sns.despine(left=True, bottom=True)
+
+# Display the plot
+plt.title('Count of Passengers by Class (Spines Removed)')
+plt.show()
+```
+### 6. plt.figure(figsize=(width, height))
+Creates a new Matplotlib figure with specified width and height in inches. Useful for controlling overall plot size.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Import matplotlib for figure customization
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a figure with a custom size using plt.figure()
+# For example, a wider figure than default, with a height of 6 inches.
+plt.figure(figsize=(10, 6))
+
+# Create a simple plot on this figure to visualize the effect of figsize
+# For instance, a histogram of 'age'
+sns.histplot(data=df, x='age', kde=True)
+
+# Optional: Add a title and labels for clarity
+plt.title("Distribution of Age on Titanic (Custom Figure Size)")
+plt.xlabel("Age")
+plt.ylabel("Count")
+
+# Display the plot
+plt.show()
+```
+### 7. ax.set_xlim(min_val, max_val)
+Sets the limits for the x-axis of a specific Axes object.
+
+```py
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt # Required to create and manipulate plot axes
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# 1. Create a plot to get an Axes object (ax)
+# Let's create a histogram of the 'age' column to demonstrate x-axis limits.
+fig, ax = plt.subplots(figsize=(8, 5))
+sns.histplot(data=df, x='age', bins=20, kde=True, ax=ax)
+
+# 2. Define the minimum and maximum values for the x-axis
+# For 'age', let's set limits to focus on a specific range, e.g., 0 to 80.
+min_val = 0
+max_val = 80
+
+# 3. Set the x-axis limits using ax.set_xlim()
+ax.set_xlim(min_val, max_val)
+
+# Optional: Add titles and labels for clarity
+ax.set_title(f"Distribution of Age (X-axis limited to {min_val}-{max_val})")
+ax.set_xlabel("Age")
+ax.set_ylabel("Count")
+
+# Display the plot
+plt.show()
+
+```
+### 8. ax.set_ylim(min_val, max_val)
+Sets the limits for the y-axis of a specific Axes object.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for plotting and ax.set_ylim
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# 1. Create a figure and an axes object
+# This provides the 'ax' object that set_ylim operates on.
+# We'll plot 'age' distribution for illustration.
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# 2. Create a plot using the 'ax' object
+# Using a boxplot for 'age' to clearly see the limits.
+sns.boxplot(y='age', data=df, ax=ax)
+
+# 3. Define the minimum and maximum values for the y-axis
+# Let's say we want to focus on ages between 0 and 70, effectively "zooming in"
+# or clipping the view of any ages outside this range.
+min_val = 0
+max_val = 70
+
+# 4. Apply ax.set_ylim to set the y-axis limits
+ax.set_ylim(min_val, max_val)
+
+# Optional: Add plot title and labels for clarity
+ax.set_title(f'Age Distribution with Y-axis Limits ({min_val}-{max_val})')
+ax.set_ylabel('Age')
+
+# 5. Display the plot
+plt.show()
+
+```
+### 9. ax.set(xlabel='New X Label', ylabel='New Y Label', title='New Title')
+A convenient method to set multiple Axes properties at once.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Matplotlib is needed for 'ax.set()'
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a plot to get an Axes object (ax)
+# For example, a simple countplot of 'class'
+plt.figure(figsize=(8, 5)) # Optional: set figure size
+ax = sns.countplot(x='class', data=df, palette='viridis')
+
+# Use ax.set() to set custom labels and a title
+ax.set(xlabel='Passenger Class Categories', ylabel='Number of Passengers', title='Distribution of Passengers by Class on Titanic')
+
+# Display the plot
+plt.show()
+```
+### 10. sns.set_context('notebook')
+Sets the plotting context parameters (font size, line width, etc.) for different presentation needs. Options: 'paper', 'notebook', 'talk', 'poster'.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Often used with set_context to see the effect
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Set the plotting context to 'notebook'
+# This is typically the default or a commonly used context for Jupyter notebooks.
+# It adjusts plot elements like linewidths, font sizes, etc., to be appropriate
+# for viewing within a notebook environment.
+sns.set_context('notebook')
+
+# Optional: You could add a simple plot here to visually see the effect of the context,
+# though the request specified no plotting required.
+# For example:
+sns.histplot(data=df, x='age')
+plt.title("Age Distribution (notebook context)")
+plt.show()
+```
+### 11. ax.tick_params(axis='x', rotation=45)
+Customizes tick parameters on a specific axis, e.g., rotating labels.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Needed for plot customization
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a countplot using Seaborn to visualize 'embark_town'
+# Assign the plot to an axes object 'ax'
+plt.figure(figsize=(8, 5)) # Optional: Adjust figure size for better readability
+ax = sns.countplot(x='embark_town', data=df)
+
+# Use ax.tick_params to rotate x-axis labels
+ax.tick_params(axis='x', rotation=45)
+
+# Optional: Add a title for clarity
+plt.title('Count of Passengers by Embarkation Town')
+plt.xlabel('Embarkation Town')
+plt.ylabel('Number of Passengers')
+
+# Optional: Adjust layout to prevent labels from overlapping
+plt.tight_layout()
+
+# Display the plot
+plt.show()
+```
+### 12. ax.legend(loc='best', frameon=False)
+Customizes the legend, e.g., its location (loc) or whether it has a frame (frameon).
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Needed for ax object and showing the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a plot that will generate a legend, for example, a scatter plot
+# with a 'hue' parameter to categorize data points.
+# We explicitly create a figure and an axes object to easily access 'ax'.
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.scatterplot(x="age", y="fare", hue="sex", data=df, ax=ax, alpha=0.7)
+
+# Apply the legend command as requested
+# loc='best' attempts to place the legend in the location that interferes least with the data.
+# frameon=False removes the frame around the legend, making it blend more with the plot background.
+ax.legend(loc='best', frameon=False)
+
+# Optional: Add titles and labels for clarity
+ax.set_title("Fare vs. Age by Gender on Titanic")
+ax.set_xlabel("Age")
+ax.set_ylabel("Fare")
+
+# Display the plot
+plt.show()
+```
+### 13. plt.tight_layout()
+Automatically adjusts plot parameters for a tight layout, preventing labels from overlapping.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Import matplotlib for plotting utilities
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a figure with multiple subplots to demonstrate tight_layout
+fig, axes = plt.subplots(1, 2, figsize=(10, 4)) # 1 row, 2 columns of subplots
+
+# Plotting 'age' distribution on the first subplot
+sns.histplot(df['age'].dropna(), kde=True, ax=axes[0])
+axes[0].set_title('Age Distribution')
+axes[0].set_xlabel('Age')
+axes[0].set_ylabel('Count')
+
+# Plotting 'fare' distribution on the second subplot
+sns.histplot(df['fare'], kde=True, ax=axes[1])
+axes[1].set_title('Fare Distribution')
+axes[1].set_xlabel('Fare')
+axes[1].set_ylabel('Count')
+
+# Use plt.tight_layout() to automatically adjust subplot params for a tight layout
+# This prevents labels, titles, and axes from overlapping
+plt.tight_layout()
+
+# Display the plot
+plt.show()
+```
 
