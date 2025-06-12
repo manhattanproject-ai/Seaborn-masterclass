@@ -1,1 +1,232 @@
+<div align="left">
+  <h1> 1. Seaborn  Cheatsheet - Multiplot Grids
+
+  ## Multiplot Grids
+
+### 1. Build in Datasets
+
+```shell
+tips
+iris
+penguins
+flights
+diamonds
+titanic
+exercise
+mpg
+planets
+anagrams
+anscombe
+attention
+brain_networks
+car_crashes
+dots
+dowjones
+fmri
+geyser
+glue
+healthexp
+seaice
+taxis
+```
+### 2. Load the dataset
+
+```py
+import seaborn as sns
+
+# Load the tips dataset
+tips = sns.load_dataset('tips')
+```
+
+### 3. sns.FacetGrid(data, col='col_name', row='row_name', ...)
+Creates a multi-plot grid for plotting conditional relationships. col and row define the variables to form the grid.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Needed for displaying the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a small code block using sns.FacetGrid
+# We'll create a grid where columns represent 'sex' and rows represent 'pclass'.
+# Then, we'll map a histogram of 'age' onto each subplot.
+g = sns.FacetGrid(df, col='sex', row='pclass', hue='survived', margin_titles=True, height=2.5, aspect=1.2)
+g.map(sns.histplot, 'age', bins=10, kde=False) # map a histogram of 'age'
+g.add_legend() # Add a legend for 'survived' status
+g.set_axis_labels("Age", "Count") # Set axis labels for all plots
+g.set_titles(col_template="{col_name}", row_template="Pclass: {row_name}") # Set clearer titles for rows/cols
+
+plt.suptitle("Age Distribution by Sex and Passenger Class", y=1.02) # Add a main title for the entire grid
+plt.tight_layout() # Adjust layout to prevent overlaps
+plt.show() # Display the plot
+```
+### 4. g.map(plt.scatter, 'x_col', 'y_col')
+Maps a plotting function (e.g., plt.scatter, sns.histplot) to each facet of the FacetGrid (g).
+
+```py
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt # Needed for plt.scatter
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a FacetGrid object
+# We'll use 'sex' to create separate columns for male/female passengers
+# to demonstrate g.map across different facets.
+g = sns.FacetGrid(df, col="sex", height=4, aspect=1.2)
+
+# Map plt.scatter onto the FacetGrid for 'age' and 'fare' columns
+g.map(plt.scatter, 'age', 'fare', alpha=0.7)
+
+# Add titles and labels for clarity
+g.set_axis_labels("Age", "Fare")
+g.set_titles(col_template="{col_name} Passengers")
+
+# Adjust layout and display the plot
+plt.tight_layout()
+plt.show()
+```
+
+### 5. g.add_legend()
+Adds a legend to the FacetGrid if hue was used in map.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for showing the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a categorical plot (e.g., a bar plot) with subplots and a hue,
+# and capture the FacetGrid object in 'g'
+g = sns.catplot(
+    data=df,
+    x="class",
+    kind="count",
+    hue="sex",
+    col="embark_town", # Creates separate columns for each embark_town
+    height=4,
+    aspect=0.7
+)
+
+# Add a legend to the FacetGrid object 'g'
+# This method automatically places a single legend for all subplots.
+g.add_legend(title="Sex")
+
+# Optional: Adjust titles for clarity
+g.set_axis_labels("Class", "Count")
+g.set_titles(col_template="{col_name} embarked")
+
+plt.show()
+```
+
+### 6. sns.PairGrid(data, vars=['col1', 'col2'], hue='hue_col')
+Creates a grid of subplots for visualizing pairwise relationships in a dataset.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for plt.show() and plot customizations
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a PairGrid to visualize relationships between numerical columns
+# 'age' and 'fare' are chosen as numerical variables.
+# 'sex' is used as the hue variable to differentiate plots by gender.
+g = sns.PairGrid(df, vars=['age', 'fare'], hue='sex')
+
+# Map a scatter plot to the lower triangle of the grid
+g.map_lower(sns.scatterplot)
+
+# Map a KDE (Kernel Density Estimate) plot to the diagonal
+# KDE is good for showing distribution for each 'hue' group
+g.map_diag(sns.kdeplot)
+
+# Map a scatter plot (or other suitable plot like kdeplot) to the upper triangle
+g.map_upper(sns.scatterplot) # Or sns.kdeplot, sns.histplot, etc.
+
+# Add a legend to the plot
+g.add_legend()
+
+# Optional: Add a title for clarity
+g.fig.suptitle("PairGrid of Age and Fare by Sex on Titanic Dataset", y=1.02) # y adjusts title position
+
+# Display the plot
+plt.show()
+```
+
+### 7. g.map_upper(sns.scatterplot)<br>g.map_lower(sns.kdeplot)<>g.map_diag(sns.histplot)
+Maps a plotting function to the upper triangle of the PairGrid.Maps a plotting function to the lower triangle of the PairGrid.Maps a plotting function to the diagonal plots of the PairGrid.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Display the first 5 rows of the DataFrame
+print(df.head(5))
+
+# Create a PairGrid for selected numerical columns
+# 'age', 'fare', and 'pclass' are good numerical candidates for demonstration
+# 'pclass' is categorical but often treated numerically in such plots
+g = sns.PairGrid(df, vars=['age', 'fare', 'pclass'])
+
+# Map plotting functions to the different parts of the grid
+g.map_upper(sns.scatterplot) # Scatter plots on the upper triangle
+g.map_lower(sns.kdeplot)     # Kernel Density Estimates (contour plots) on the lower triangle
+g.map_diag(sns.histplot)     # Histograms on the diagonal
+
+# Optional: Adjust layout for better visualization
+plt.tight_layout()
+
+# Show the plot
+plt.show()
+```
+
+### 8. g = sns.JointGrid(data, x='x_col', y='y_col') <br> g.plot_joint(sns.scatterplot)<br> g.plot_marginals(sns.histplot)
+Provides more fine-grained control over a joint plot by creating a JointGrid object and then mapping functions to its joint and marginal axes separately.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for displaying the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a JointGrid to visualize the relationship between 'age' and 'fare'
+# with marginal histograms
+g = sns.JointGrid(data=df, x='age', y='fare')
+g.plot_joint(sns.scatterplot)
+g.plot_marginals(sns.histplot)
+
+plt.suptitle("Joint Plot of Age vs. Fare with Marginal Histograms", y=1.02) # Add a title to the figure
+plt.show()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
