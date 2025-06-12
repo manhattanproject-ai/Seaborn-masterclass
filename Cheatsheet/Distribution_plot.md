@@ -1,1 +1,266 @@
+<div align="left">
+  <h1> 1. Seaborn  Cheatsheet - Distribution Plots
 
+  ## Distribution Plots
+
+### 1. Build in Datasets
+
+```shell
+tips
+iris
+penguins
+flights
+diamonds
+titanic
+exercise
+mpg
+planets
+anagrams
+anscombe
+attention
+brain_networks
+car_crashes
+dots
+dowjones
+fmri
+geyser
+glue
+healthexp
+seaice
+taxis
+```
+### 2. Load the dataset
+
+```py
+import seaborn as sns
+
+# Load the tips dataset
+tips = sns.load_dataset('tips')
+```
+
+### 3. sns.histplot(data=df, x='column_name')
+Specifically instructs relplot to draw line plots instead of scatter plots across its facets.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Import matplotlib for showing the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a histogram for the 'age' column
+sns.histplot(data=df, x='age')
+
+# Show the plot
+plt.title('Distribution of Age in Titanic Dataset')
+plt.xlabel('Age')
+plt.ylabel('Count')
+plt.show()
+```
+
+### 4. sns.kdeplot(data=df, x='column_name')
+Specifically instructs relplot to draw line plots instead of scatter plots across its facets.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Recommended for displaying plots
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Display the first 5 rows of the DataFrame
+# Replace '5' with any integer 'n' to view the first 'n' rows
+print(df.head(5))
+
+# Generate a KDE plot for the 'age' column
+# KDE (Kernel Density Estimate) plot is used to visualize the distribution of a continuous variable.
+sns.kdeplot(data=df, x='age')
+
+# Add a title for clarity
+plt.title("Kernel Density Estimate of Age on Titanic")
+plt.xlabel("Age")
+plt.ylabel("Density")
+
+# Display the plot
+plt.show()
+```
+### 5. sns.displot(data=df, x='column_name', kind='hist')
+Specifically instructs relplot to draw line plots instead of scatter plots across its facets.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Often used with seaborn for display options
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Display the first 5 rows of the DataFrame
+# Replace '5' with any integer 'n' to view the first 'n' rows
+print(df.head(5))
+
+# Generate the displot
+sns.displot(data=df, x='age', kind='hist') # Using 'age' as a suitable numerical column
+
+# Optional: Add title and labels for clarity
+plt.title("Distribution of Age on Titanic")
+plt.xlabel("Age")
+plt.ylabel("Count")
+
+plt.show()
+```
+### 6. sns.displot(data=df, x='column_name', kind='kde')
+Specifically instructs relplot to draw line plots instead of scatter plots across its facets.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Display the first 5 rows of the DataFrame
+# Replace '5' with any integer 'n' to view the first 'n' rows
+print(df.head(5))
+
+# Generate a KDE plot for the 'age' column using sns.displot
+sns.displot(data=df, x='age', kind='kde')
+```
+
+### 7. sns.displot(data=df, x='column_name', kind='ecdf')
+Specifically instructs relplot to draw line plots instead of scatter plots across its facets.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Often used with seaborn for display options
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Display the first 5 rows of the DataFrame
+# Replace '5' with any integer 'n' to view the first 'n' rows
+print(df.head(5))
+
+# Generate the displot with kind='ecdf' for the 'age' column
+# ECDF (Empirical Cumulative Distribution Function) shows the proportion
+# of observations that fall below a certain value.
+sns.displot(data=df, x='age', kind='ecdf')
+
+# Optional: Add a title for clarity
+plt.title("ECDF of Age on Titanic")
+plt.xlabel("Age")
+plt.ylabel("Cumulative Probability")
+
+plt.show()
+```
+
+### 8. sns.rugplot(data=df, x='column_name')
+Specifically instructs relplot to draw line plots instead of scatter plots across its facets.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Display the first 5 rows of the DataFrame
+print(df.head(5))
+
+# Generate the rug plot for the 'age' column
+# A rug plot displays individual data points as dashes along an axis.
+plt.figure(figsize=(10, 2)) # Adjust figure size for better visibility of rug plot
+sns.rugplot(data=df, x='age')
+
+# Add a title for clarity
+plt.title("Rug Plot of Age Distribution on Titanic")
+plt.xlabel("Age")
+
+plt.show()
+```
+
+### 9. sns.ecdfplot(data=df, x='column_name')
+Specifically instructs relplot to draw line plots instead of scatter plots across its facets.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for showing the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Display the first 5 rows of the DataFrame
+# Replace '5' with any integer 'n' to view the first 'n' rows
+print(df.head(5))
+
+# Generate the ECDF plot for the 'age' column
+sns.ecdfplot(data=df, x='age')
+
+# Optional: Add title and labels for clarity
+plt.title('Empirical Cumulative Distribution Function of Age on Titanic')
+plt.xlabel('Age')
+plt.ylabel('Proportion')
+
+# Display the plot
+plt.show()
+```
+
+### 10. sns.boxplot(data=df, x='category_col', y='numeric_col')
+Specifically instructs relplot to draw line plots instead of scatter plots across its facets.
+
+```py
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt # Required for displaying the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Display the first 5 rows of the DataFrame
+print(df.head(5))
+
+# Generate the box plot
+# Using 'pclass' (passenger class) as the categorical variable on x-axis
+# and 'age' as the numerical variable on the y-axis.
+sns.boxplot(data=df, x='pclass', y='age')
+
+# Optional: Add a title and labels for clarity
+plt.title("Age Distribution by Passenger Class on Titanic")
+plt.xlabel("Passenger Class")
+plt.ylabel("Age")
+
+plt.show()
+```
+
+### 11. sns.violinplot(data=df, x='category_col', y='numeric_col')
+Specifically instructs relplot to draw line plots instead of scatter plots across its facets.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Needed to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Display the first 5 rows of the DataFrame
+# Replace '5' with any integer 'n' to view the first 'n' rows
+print(df.head(5))
+
+# Generate the violin plot
+# 'sex' is a categorical column and 'age' is a numeric column
+sns.violinplot(data=df, x='sex', y='age')
+
+# Optional: Add a title for clarity
+plt.title("Distribution of Age by Sex on Titanic")
+plt.xlabel("Sex")
+plt.ylabel("Age")
+
+# Display the plot
+plt.show()
+```
