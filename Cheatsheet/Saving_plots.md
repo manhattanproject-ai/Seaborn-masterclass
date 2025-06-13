@@ -1,0 +1,238 @@
+<div align="left">
+  <h1> 1. Seaborn  Cheatsheet - Saving plots
+
+  ## Saving Plots
+
+### 1. Build in Datasets
+
+```shell
+tips
+iris
+penguins
+flights
+diamonds
+titanic
+exercise
+mpg
+planets
+anagrams
+anscombe
+attention
+brain_networks
+car_crashes
+dots
+dowjones
+fmri
+geyser
+glue
+healthexp
+seaice
+taxis
+```
+### 2. Load the dataset
+
+```py
+import seaborn as sns
+
+# Load the tips dataset
+tips = sns.load_dataset('tips')
+```
+
+### 3. plt.savefig('my_plot.png')
+Plots the mean (default estimator) of a quantitative variable for each category of a qualitative variable, with confidence intervals. You can specify a different estimator function (e.g., np.median, np.std, len).
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Import matplotlib for saving plots
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# --- Code block for plot generation and saving ---
+
+# Generate a simple plot (e.g., a histogram of 'age')
+plt.figure(figsize=(8, 6)) # Optional: set figure size
+sns.histplot(data=df, x='age', kde=True, bins=20)
+
+# Optional: Add title and labels for clarity
+plt.title('Distribution of Age on Titanic')
+plt.xlabel('Age')
+plt.ylabel('Count')
+
+# Save the plot to a file
+plt.savefig('my_plot.png')
+
+# Optional: Display the plot (if running in an environment that shows plots)
+plt.show()
+
+```
+
+### 4. plt.savefig('my_plot.pdf', dpi=300)
+Plots the mean (default estimator) of a quantitative variable for each category of a qualitative variable, with confidence intervals. You can specify a different estimator function (e.g., np.median, np.std, len).
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Import matplotlib for saving plots
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# --- Code block for plt.savefig() ---
+
+# Create a simple plot using Seaborn (which uses Matplotlib internally)
+# For example, a countplot of 'class'
+sns.countplot(x='class', data=df)
+plt.title('Passenger Class Distribution on Titanic')
+plt.xlabel('Class')
+plt.ylabel('Count')
+
+# Save the plot to a PDF file with 300 DPI
+plt.savefig('titanic_class_distribution.pdf', dpi=300)
+
+# Optional: Display the plot (if running in an environment that supports it)
+plt.show()
+
+```
+
+### 5. plt.savefig('my_plot.svg', format='svg')
+Plots the mean (default estimator) of a quantitative variable for each category of a qualitative variable, with confidence intervals. You can specify a different estimator function (e.g., np.median, np.std, len).
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Import matplotlib for saving plots
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# --- Start of the specific code generation ---
+
+# Create a simple plot to demonstrate saving
+# For example, a histogram of 'age'
+plt.figure(figsize=(8, 6)) # Optional: Set figure size
+sns.histplot(df['age'].dropna(), kde=True) # Drop NaNs for histogram
+plt.title('Distribution of Age on Titanic')
+plt.xlabel('Age')
+plt.ylabel('Count')
+
+# Save the plot as an SVG file
+plt.savefig('my_plot.svg', format='svg')
+
+# Optional: Close the plot to free memory if not showing it
+plt.close()
+
+```
+
+### 6. plt.savefig('my_plot.png', bbox_inches='tight')
+Plots the mean (default estimator) of a quantitative variable for each category of a qualitative variable, with confidence intervals. You can specify a different estimator function (e.g., np.median, np.std, len).
+
+```py
+import seaborn as sns
+import matplotlib.pyplot as plt # Import matplotlib for saving plots
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a simple plot using the titanic dataset
+# For example, a histogram of 'age'
+plt.figure(figsize=(8, 6)) # Optional: set figure size
+sns.histplot(df['age'].dropna(), kde=True, bins=30)
+plt.title('Distribution of Age on Titanic')
+plt.xlabel('Age')
+plt.ylabel('Count')
+
+# Save the plot to a file
+plt.savefig('age_distribution_titanic.png', bbox_inches='tight')
+
+# Display the plot
+plt.show()
+```
+
+### 7. plt.savefig('my_plot.png', transparent=True)
+Plots the mean (default estimator) of a quantitative variable for each category of a qualitative variable, with confidence intervals. You can specify a different estimator function (e.g., np.median, np.std, len).
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for plt.savefig
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Create a simple plot that we can save
+# For instance, a histogram of the 'age' column
+plt.figure(figsize=(8, 6)) # Optional: set figure size
+sns.histplot(df['age'].dropna(), kde=True, bins=20) # Drop NaNs for plotting age
+plt.title('Distribution of Age on Titanic')
+plt.xlabel('Age')
+plt.ylabel('Count')
+
+# Save the plot to a file with a transparent background
+plt.savefig('age_distribution.png', transparent=True)
+
+# Important: plt.show() should come after plt.savefig() if you want to display the plot
+# and then save it, otherwise, saving might save an empty plot or require a new figure.
+# If you only want to save and not display, you can omit plt.show().
+# For this example, we'll display it too.
+plt.show()
+
+```
+
+### 8. g.savefig('my_facet_plot.png')
+Plots the mean (default estimator) of a quantitative variable for each category of a qualitative variable, with confidence intervals. You can specify a different estimator function (e.g., np.median, np.std, len).
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Needed for plt.show() if displaying the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a FacetGrid plot (e.g., a count plot of 'class' by 'sex')
+# sns.catplot returns a FacetGrid object
+g = sns.catplot(x="class", col="sex", data=df, kind="count", height=4, aspect=.7)
+
+# Add a title for clarity
+g.set_axis_labels("Class", "Count")
+g.set_titles("Sex: {col_name}")
+g.fig.suptitle("Survival Count by Class and Sex on Titanic", y=1.03) # Adjust y to prevent overlap
+
+# Save the generated plot to a file
+g.savefig('titanic_class_sex_count.png')
+
+# Optional: Display the plot
+plt.show()
+
+```
+
+### 9. g.figure.savefig('my_grid_plot.png')
+Plots the mean (default estimator) of a quantitative variable for each category of a qualitative variable, with confidence intervals. You can specify a different estimator function (e.g., np.median, np.std, len).
+
+```py
+import seaborn as sns
+import matplotlib.pyplot as plt # Required for plt.show() and generally good practice when saving plots
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a figure-level plot using Seaborn that returns a 'g' object
+# For example, a categorical plot showing 'survived' vs 'sex' across 'pclass'
+g = sns.catplot(x="sex", col="pclass", data=df, kind="count", hue="survived",
+                height=4, aspect=.7, palette="viridis")
+
+# Add a title to the entire figure
+g.fig.suptitle("Survival Count by Sex across Passenger Classes", y=1.03)
+
+# Save the generated plot to a file
+g.figure.savefig('my_grid_plot.png')
+
+# Display the plot
+plt.show()
+
+```
+
