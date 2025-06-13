@@ -1,1 +1,379 @@
+<div align="left">
+  <h1> 1. Seaborn  Cheatsheet - Statistical Estimates and Aggregation
+
+  ## Statistical Estimates and Aggregation
+
+### 1. Build in Datasets
+
+```shell
+tips
+iris
+penguins
+flights
+diamonds
+titanic
+exercise
+mpg
+planets
+anagrams
+anscombe
+attention
+brain_networks
+car_crashes
+dots
+dowjones
+fmri
+geyser
+glue
+healthexp
+seaice
+taxis
+```
+### 2. Load the dataset
+
+```py
+import seaborn as sns
+
+# Load the tips dataset
+tips = sns.load_dataset('tips')
+```
+
+### 3. sns.barplot(..., estimator=np.mean)
+Plots the mean (default estimator) of a quantitative variable for each category of a qualitative variable, with confidence intervals. You can specify a different estimator function (e.g., np.median, np.std, len).
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import numpy as np # Import numpy for the estimator
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a bar plot to visualize the mean 'age' for each 'pclass'
+# using np.mean as the estimator.
+sns.barplot(x='pclass', y='age', data=df, estimator=np.mean)
+
+# Optional: Add a title and labels for clarity
+plt.title("Mean Age by Passenger Class on Titanic")
+plt.xlabel("Passenger Class")
+plt.ylabel("Mean Age")
+
+# Display the plot
+plt.show()
+```
+### 4. sns.pointplot(..., estimator=np.mean)
+Shows point estimates and confidence intervals using scatter plot markers and lines. Similar to barplot but emphasizes the central tendency and its uncertainty.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import numpy as np # Import numpy for the estimator
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a pointplot showing the mean survival rate by passenger class and sex
+# The estimator is explicitly set to np.mean (which is the default for pointplot,
+# but specified here as requested).
+sns.pointplot(x="class", y="survived", hue="sex", data=df, estimator=np.mean)
+
+# Optional: Add labels and title for clarity
+plt.title("Mean Survival Rate by Class and Sex")
+plt.xlabel("Passenger Class")
+plt.ylabel("Mean Survival Rate")
+plt.grid(True, linestyle='--', alpha=0.6) # Add a grid for better readability
+
+# Display the plot
+plt.show()
+```
+
+### 5. sns.countplot(x='category_col', data=df)
+Shows the counts of observations in each category using bars. Effectively a histogram for categorical data.
+
+```py
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a countplot for a categorical column, e.g., 'sex'
+sns.countplot(x='sex', data=df)
+
+# Add a title for clarity (optional)
+plt.title('Count of Passengers by Sex on Titanic')
+plt.xlabel('Sex')
+plt.ylabel('Number of Passengers')
+
+# Display the plot
+plt.show()
+```
+
+### 6. sns.lmplot(..., x_estimator=np.mean)
+Plots a regression line and confidence interval for y as a function of x. x_estimator allows plotting the mean of x at each y value when x is discrete.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import numpy as np # Required for np.mean
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a scatter plot with a linear regression line,
+# where the x-axis values (age) are estimated (grouped and averaged)
+# for each unique value on the categorical hue variable ('sex').
+# This helps to visualize the relationship between 'age' (mean) and 'fare'
+# for different genders.
+sns.lmplot(data=df, x='age', y='fare', hue='sex', x_estimator=np.mean, ci=95)
+
+# Optional: Add plot title and labels for clarity
+plt.title("Mean Age vs. Fare by Sex with Regression Line")
+plt.xlabel("Mean Age")
+plt.ylabel("Fare")
+
+# Display the plot
+plt.show()
+```
+
+### 7. sns.relplot(..., kind='line', errorbar='sd')
+For line plots, errorbar controls the visualization of statistical uncertainty. 'sd' shows standard deviation, 'se' shows standard error, or you can pass a custom function.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required for displaying the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a line plot showing the average fare across passenger classes,
+# with the standard deviation as error bars.
+# 'pclass' is an ordinal categorical variable that represents the passenger class (1st, 2nd, 3rd).
+# 'fare' is a numerical variable representing the ticket fare.
+# The 'kind='line'' argument connects the aggregated points (average fare per class).
+# The 'errorbar='sd'' argument displays the standard deviation around the mean as error bars.
+sns.relplot(x='pclass', y='fare', kind='line', errorbar='sd', data=df)
+
+# Optional: Add a title and labels for clarity (uncomment to include in plot)
+plt.title("Average Fare by Passenger Class with Standard Deviation")
+plt.xlabel("Passenger Class")
+plt.ylabel("Average Fare")
+
+plt.show()
+```
+
+### 8. sns.histplot(..., stat='density')
+For histograms, stat controls the normalization of the histogram bars. 'count' (default), 'frequency', 'density', 'probability'.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Import matplotlib for plot display and customization
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a histogram of the 'age' column with stat='density'
+sns.histplot(data=df, x='age', stat='density')
+
+# Optional: Add a title and labels for clarity
+plt.title("Distribution of Age (Density)")
+plt.xlabel("Age")
+plt.ylabel("Density")
+
+plt.show()
+```
+
+### 9. sns.kdeplot(..., cut=0)
+For Kernel Density Estimates, cut extends the density beyond the extreme data points. cut=0 means it stops at the data range.
+
+```py
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt # Needed for displaying the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a KDE plot for the 'age' column, cutting the density off at the data limits
+print("\nGenerating KDE plot for 'age' with cut=0...")
+plt.figure(figsize=(8, 5))
+sns.kdeplot(x='age', data=df, cut=0, fill=True, color='skyblue', linewidth=2)
+plt.title('Kernel Density Estimate of Age (cut=0)')
+plt.xlabel('Age')
+plt.ylabel('Density')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.show()
+
+# You can also generate a KDE plot for another numerical column, like 'fare'
+print("\nGenerating KDE plot for 'fare' with cut=0...")
+plt.figure(figsize=(8, 5))
+sns.kdeplot(x='fare', data=df, cut=0, fill=True, color='lightcoral', linewidth=2)
+plt.title('Kernel Density Estimate of Fare (cut=0)')
+plt.xlabel('Fare')
+plt.ylabel('Density')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.show()
+```
+
+### 10. sns.regplot(..., ci=95)
+Plots a regression line. ci specifies the size of the confidence interval (e.g., 95% is default) around the regression estimate. Set ci=None to remove it.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a regression plot to visualize the relationship between 'age' and 'fare'
+# with a 95% confidence interval for the regression line.
+# Note: regplot automatically handles NaN values by dropping them for the plot.
+sns.regplot(x="age", y="fare", data=df, ci=95)
+
+# Optional: Add titles and labels for clarity
+plt.title("Relationship between Age and Fare on Titanic")
+plt.xlabel("Age")
+plt.ylabel("Fare")
+
+# Display the plot
+plt.show()
+```
+
+### 11. sns.jointplot(..., kind='reg')
+Combines a scatter plot with marginal histograms, and can add a regression line with confidence interval to the joint plot.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import numpy as np # Import numpy for the estimator
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a bar plot to visualize the mean 'age' for each 'pclass'
+# using np.mean as the estimator.
+sns.barplot(x='pclass', y='age', data=df, estimator=np.mean)
+
+# Optional: Add a title and labels for clarity
+plt.title("Mean Age by Passenger Class on Titanic")
+plt.xlabel("Passenger Class")
+plt.ylabel("Mean Age")
+
+# Display the plot
+plt.show()
+```
+
+### 12. sns.catplot(..., kind='bar', errorbar='sd')
+A figure-level function for categorical plots that can use errorbar to show statistical estimates (e.g., standard deviation).
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Recommended for showing plots
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate the categorical plot using sns.catplot
+# kind='bar' for bar plot, errorbar='sd' to show standard deviation
+# x-axis: 'pclass' (categorical)
+# y-axis: 'age' (numerical)
+# hue: 'sex' to further break down by gender (optional, but adds insight)
+sns.catplot(data=df, x='pclass', y='age', hue='sex', kind='bar', errorbar='sd')
+
+# Optional: Add a title for clarity
+plt.title("Average Age by Passenger Class and Sex (with Standard Deviation)")
+plt.xlabel("Passenger Class")
+plt.ylabel("Average Age")
+
+# Show the plot
+plt.show()
+```
+
+### 13. sns.boxplot(..., showmeans=True)
+Shows the distribution using quartiles. showmeans=True adds a marker for the mean.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a box plot of 'age' by 'sex', showing the mean
+sns.boxplot(x='sex', y='age', data=df, showmeans=True)
+
+# Optional: Add a title and labels for clarity
+plt.title("Age Distribution by Sex on Titanic with Mean Indicated")
+plt.xlabel("Sex")
+plt.ylabel("Age")
+
+# Display the plot
+plt.show()
+```
+
+### 14. sns.violinplot(..., inner='quartile')
+Shows the distribution and KDE. inner can display 'box', 'quartile', 'point', or 'stick' to show statistical estimates within the violins.
+
+```py
+import seaborn as sns
+import pandas as pd # pandas is implicitly used by seaborn's load_dataset
+import matplotlib.pyplot as plt # Required to display the plot
+
+# Load the titanic dataset
+df = sns.load_dataset('titanic')
+
+# Generate a violin plot of 'age' distribution based on 'sex',
+# showing quartiles within each violin.
+sns.violinplot(x='sex', y='age', data=df, inner='quartile')
+plt.title('Age Distribution by Sex with Quartiles (Titanic Dataset)')
+plt.xlabel('Sex')
+plt.ylabel('Age')
+plt.show()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
