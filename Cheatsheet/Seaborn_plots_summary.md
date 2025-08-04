@@ -796,3 +796,49 @@ g.fig.suptitle('Joint Distribution of Total Bill and Tip', y=1.02) # y adjusts t
 
 plt.show()
 ```
+### 30. Interpretation of Boxplot
+
+<img width="537" height="499" alt="Screenshot 2025-08-04 190301" src="https://github.com/user-attachments/assets/708cf0cf-5eb5-48b2-aece-fde4ba97dace" />
+
+
+```py
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the tips dataset
+tips = sns.load_dataset('tips')
+
+# To get the Lower Extreme (Minimum value, excluding outliers)
+# This is often calculated as Q1 - 1.5 * IQR
+Q1 = tips['total_bill'].quantile(0.25)
+Q3 = tips['total_bill'].quantile(0.75)
+IQR = Q3 - Q1
+lower_extreme = Q1 - 1.5 * IQR
+
+# To get the Lower Quartile (Q1)
+lower_quartile = tips['total_bill'].quantile(0.25)
+
+# To get the Median (Q2)
+median = tips['total_bill'].median() # or tips['total_bill'].quantile(0.5)
+
+# To get the Upper Quartile (Q3)
+upper_quartile = tips['total_bill'].quantile(0.75)
+
+# To get the Upper Extreme (Maximum value, excluding outliers)
+# This is often calculated as Q3 + 1.5 * IQR
+upper_extreme = Q3 + 1.5 * IQR
+
+# To get the Outliers
+# Outliers are any values below the lower extreme or above the upper extreme
+outliers = tips[(tips['total_bill'] < lower_extreme) | (tips['total_bill'] > upper_extreme)]
+print("Lower extreme is : " , lower_extreme)
+print("Lower quartile is : " , lower_quartile)
+print("Median is : " , median)
+print("Inter quartile range" , IQR)
+print("Upper quartile is : " , upper_quartile)
+print("Upper extreme is : " , upper_extreme)
+
+print("="*60)
+# Outlier rows 
+outliers
+```
